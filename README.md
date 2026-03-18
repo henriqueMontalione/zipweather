@@ -112,19 +112,18 @@ zipweather/
 ├── internal/
 │   ├── domain/
 │   │   ├── weather.go                   # Domain types: WeatherResult
-│   │   └── errors.go                    # Sentinel errors: ErrNotFound, ErrInvalidCEP
+│   │   ├── errors.go                    # Sentinel errors: ErrNotFound, ErrInvalidCEP
+│   │   └── temperature.go              # Pure functions: C→F and C→K
 │   ├── ports/
 │   │   ├── location.go                  # LocationPort interface
 │   │   └── weather.go                   # WeatherPort interface
-│   ├── adapters/
-│   │   ├── http/
-│   │   │   └── handler.go              # Primary adapter: HTTP handler
-│   │   ├── viacep/
-│   │   │   └── client.go              # Secondary adapter: ViaCEP client
-│   │   └── weatherapi/
-│   │       └── client.go              # Secondary adapter: WeatherAPI client
-│   └── temperature/
-│       └── converter.go               # Pure functions: C→F and C→K
+│   └── adapters/
+│       ├── http/
+│       │   └── handler.go              # Primary adapter: HTTP handler
+│       ├── viacep/
+│       │   └── client.go              # Secondary adapter: ViaCEP client
+│       └── weatherapi/
+│           └── client.go              # Secondary adapter: WeatherAPI client
 ├── Dockerfile
 ├── Makefile
 ├── .env.example
@@ -137,12 +136,11 @@ zipweather/
 
 | Layer | Responsibility |
 |---|---|
-| `internal/domain` | Business types and sentinel errors — zero external dependencies |
+| `internal/domain` | Business types, sentinel errors, and pure temperature conversion functions |
 | `internal/ports` | Port interfaces (`LocationPort`, `WeatherPort`) — contracts between adapters and domain |
 | `internal/adapters/http` | Primary adapter: receives HTTP requests, orchestrates ports, writes responses |
 | `internal/adapters/viacep` | Secondary adapter: implements `LocationPort` via ViaCEP API |
 | `internal/adapters/weatherapi` | Secondary adapter: implements `WeatherPort` via WeatherAPI |
-| `internal/temperature` | Pure conversion functions — no I/O, fully unit-testable |
 | `cmd/server/main.go` | Composition root: the only place that knows about concrete implementations |
 
 ### Dependency rule
@@ -230,7 +228,7 @@ The test suite covers:
 
 | Package | Test type | What is tested |
 |---|---|---|
-| `internal/temperature` | Unit | Conversion formulas: C→F and C→K, including edge cases (0°C, 100°C, negatives) |
+| `internal/domain` | Unit | Conversion formulas: C→F and C→K, including edge cases (0°C, 100°C, negatives) |
 | `internal/adapters/http` | Integration (`httptest`) | All HTTP scenarios: 200, 404, 422 — with mocked port interfaces |
 | `internal/adapters/viacep` | Unit (`httptest.NewServer`) | ViaCEP response parsing, `"erro"` field handling, `ErrNotFound` mapping |
 | `internal/adapters/weatherapi` | Unit (`httptest.NewServer`) | WeatherAPI response parsing, city URL-encoding |
