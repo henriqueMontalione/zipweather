@@ -6,12 +6,10 @@ A Go HTTP service that receives a Brazilian ZIP code (CEP), identifies the corre
 
 ## Live Demo
 
-**Cloud Run URL:** `https://zipweather-<hash>-uc.a.run.app`
-
-> Replace with the active URL after deployment.
+**Cloud Run URL:** `https://zipweather-295200018580.us-central1.run.app`
 
 ```bash
-curl "https://zipweather-<hash>-uc.a.run.app/01001000"
+curl "https://zipweather-295200018580.us-central1.run.app/01001000"
 ```
 
 ```json
