@@ -1,9 +1,9 @@
-package temperature_test
+package domain_test
 
 import (
 	"testing"
 
-	"github.com/henriqueMontalione/zipweather/internal/temperature"
+	"github.com/henriqueMontalione/zipweather/internal/domain"
 )
 
 func TestCelsiusToFahrenheit(t *testing.T) {
@@ -17,7 +17,7 @@ func TestCelsiusToFahrenheit(t *testing.T) {
 		{28.5, 83.3},
 	}
 	for _, tt := range tests {
-		got := temperature.CelsiusToFahrenheit(tt.celsius)
+		got := domain.CelsiusToFahrenheit(tt.celsius)
 		if got != tt.want {
 			t.Errorf("CelsiusToFahrenheit(%v) = %v, want %v", tt.celsius, got, tt.want)
 		}
@@ -35,7 +35,7 @@ func TestCelsiusToKelvin(t *testing.T) {
 		{28.5, 301.5},
 	}
 	for _, tt := range tests {
-		got := temperature.CelsiusToKelvin(tt.celsius)
+		got := domain.CelsiusToKelvin(tt.celsius)
 		if got != tt.want {
 			t.Errorf("CelsiusToKelvin(%v) = %v, want %v", tt.celsius, got, tt.want)
 		}

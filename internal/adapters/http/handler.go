@@ -9,7 +9,6 @@ import (
 
 	"github.com/henriqueMontalione/zipweather/internal/domain"
 	"github.com/henriqueMontalione/zipweather/internal/ports"
-	"github.com/henriqueMontalione/zipweather/internal/temperature"
 )
 
 // Handler is the primary adapter. It handles HTTP requests and delegates
@@ -48,8 +47,8 @@ func (h *Handler) GetWeather(w http.ResponseWriter, r *http.Request) {
 
 	result := domain.WeatherResult{
 		TempC: celsius,
-		TempF: temperature.CelsiusToFahrenheit(celsius),
-		TempK: temperature.CelsiusToKelvin(celsius),
+		TempF: domain.CelsiusToFahrenheit(celsius),
+		TempK: domain.CelsiusToKelvin(celsius),
 	}
 
 	w.Header().Set("Content-Type", "application/json")
